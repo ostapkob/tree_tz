@@ -1,4 +1,4 @@
-def create_db(data):
+def list_from_dict(data):
     db = []
 
     def recursive(data, parent=0, level=0):

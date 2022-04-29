@@ -16,7 +16,7 @@ def recursive(db, item):
     return {'id': id, 'alias': alias, 'name': name}
 
 
-def db_to_dict(db, deep=100):
+def dict_from_list(db, deep=100):
     menu = []
     db = [x for x in db if x[4] <= deep]
     items = get_by_level(db, 1)

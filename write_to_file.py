@@ -11,5 +11,5 @@ def recursive(data, file, level=0):
 
 
 def write_to_file(data):
-    with open('new_file', 'w') as f:
+    with open('new_file.txt', 'w') as f:
         recursive(data, f)
