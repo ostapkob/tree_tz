@@ -1,27 +1,38 @@
 import json
 from rich import print
-from print_levels import *
-from list_from_dict import *
-from dict_from_list import *
+from print_data import *
+from json_to_table import *
+from table_to_json import *
 from write_to_file import *
+from postres import *
+
 
 with open('categories_2.json', 'r') as f:
-    data = json.load(f)
+    json_data = json.load(f)
 
-# print(data)
+print(json_data)
 
 
-db = list_from_dict(data)
-# print(db)
-# print("[gold1]~ [/gold1]"*30)
+# table_menu = json_to_table(json_data)
+# print(table_menu)
+# print_how_table(table_menu)
 
-print_dict_by_levels(data)
+# drop_table()
+# create_table()
+# insert_items(table_menu)
 
-menu = dict_from_list(db, 4)
-# print(menu)
+# db_menu = select_items()
 
-print_dict_by_levels(menu, 4)
+# print(db_menu)
+# print_how_table(db_menu)
 
-write_to_file(menu)
+# print_json_by_levels(json_data)
 
-print_list_by_levels(db, 4)
+# json_menu = table_to_json(table_menu, 4)
+# print(json_menu)
+
+# json_to_file(json_menu, 'new_file.txt')
+# table_to_file(db_menu, 'new_file.txt')
+
+# print_table_by_levels(db_menu, 4)
+# print_json_by_levels(json_menu, 4)
