@@ -4,6 +4,12 @@ from rich.table import Table
 from rich.console import Console
 
 
+from rich import print
+from table_to_json import get_by_level
+from rich.table import Table
+from rich.console import Console
+
+
 def waves(f):
     def wrap(*args):
         print()
@@ -12,33 +18,53 @@ def waves(f):
     return wrap
 
 
-def recursice_json(data, deep=100, level=0):
+# def recursice_json(items, deep=100, level=0, url=''):
+#     level += 1
+#     if level > deep:
+#         return
+#     for item in items:
+#         url = '/' + item['alias']
+#         print('🔸  '*level, item['id'],
+#               ':', f"[cyan1] {item['name']} [/cyan1], {url}")
+
+#         childrens = item.get('childrens', None)
+#         if childrens is not None:
+#             recursice_json(childrens, deep, level, url)
+#         else:
+#             tmp = url.split('/')[:-1]
+#             url = '/'.join(tmp)
+
+def recursice_json(json_obj, child, deep=100, level=0, url=''):
+    childrens = child.get('childrens', None)
     level += 1
     if level > deep:
         return
-    for item in data:
-        print('🔸  '*level, item['id'], item['alias'],
-              ':', f"[cyan1] {item['name']} [/cyan1]")
-        childrens = item.get('childrens', None)
-        if childrens is not None or deep <= level:
-            recursice_json(childrens,   deep, level)
+    url += '/' + child['alias']
+    print('🔸  '*level, child['id'],
+          ':', f"[cyan1] {child['name']} [/cyan1], {url}")
+
+    if childrens is not None:
+        [recursice_json(json_obj, child, deep, level, url)
+         for child in childrens]
 
 
 @waves
 def print_json_by_levels(data, deep=100):
-    if deep<1:
+    if deep < 1:
         print("[red1]deep can't be less than 1[/red1]")
         return
-    recursice_json(data, deep)
+    for item in data:
+        recursice_json(data, item, deep)
 
 
-def recursive_table(table, item, level=0):
+def recursive_table(table, item, level=0,  url=''):
     childrens = [x for x in table if x[1] == item[0]]
     level += 1
-    print("🔹 " * level, item[0], item[2], ':',
-          f"[sky_blue2] {item[3]} [/sky_blue2]")
+    url += '/'+item[2]
+    print("🔹 " * level, item[0], ':',
+          f"[sky_blue2] {item[3]} [/sky_blue2] - {url}")
     if childrens:
-        [recursive_table(table, child, level) for child in childrens]
+        [recursive_table(table, child, level, url) for child in childrens]
 
 
 @waves
@@ -46,7 +72,7 @@ def print_table_by_levels(table, deep=100):
     if not table:
         print("[red1]tabel is empty[/red1]")
         return
-    if deep<1:
+    if deep < 1:
         print("[red1]deep can't be less than 1[/red1]")
         return
     table = [x for x in table if x[4] <= deep]
@@ -61,7 +87,6 @@ def print_how_table(data):
         return
     console = Console()
     table = Table(show_header=True, header_style='bold')
-    heders = ['id', 'parent_id', 'alias', 'name', 'level']
     table.add_column('id', style='green1')
     table.add_column('parent_id', style='green3')
     table.add_column('alias', style='sky_blue1')

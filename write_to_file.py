@@ -2,34 +2,37 @@ from table_to_json import get_by_level
 from rich import print
 
 
-def recursive_json(data, file, level=0):
+def recursive_json(json_obj, child, file, deep=100, level=0, url=''):
+    childrens = child.get('childrens', None)
     level += 1
-    for item in data:
-        line = '-  '*level + \
-            f"{item['id']}, {item['alias']} : {item['name']} \n"
-        file.write(line)
+    if level> deep:
+        return
+    url += "/" + child['alias']
+    line = '-  '*level + \
+        f"{child['id']} : {child['name']} - {url}\n"
+    file.write(line)
+    if childrens is not None:
+        [recursive_json(json_obj, child, file, deep, level, url) for child in childrens]
 
-        parent = item.get('childrens', None)
-        if parent is not None:
-            recursive_json(parent, file,  level)
 
-
-def json_to_file(data, filename):
+def json_to_file(data, filename, deep=100):
     if not data:
         print("[red1]json is empty[/red1]")
         return
     with open(filename, 'w') as f:
-        recursive_json(data, f)
+        for item in data:
+            recursive_json(data, item, f, deep)
 
 
-def recursive_table(table, file, item, level=0):
+def recursive_table(table, file, item, level=0, url=''):
     childrens = [x for x in table if x[1] == item[0]]
     level += 1
+    url += '/' + item[2]
     line = '*  '*level + \
-        f"{item[0]}, {item[2]} : {item[3]} \n"
+        f"{item[0]} : {item[3]} - {url}\n"
     file.write(line)
     if childrens:
-        [recursive_table(table, file, child, level) for child in childrens]
+        [recursive_table(table, file, child, level, url) for child in childrens]
 
 
 def table_to_file(table, filename):
