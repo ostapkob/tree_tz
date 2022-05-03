@@ -10,7 +10,7 @@ json  ->  table  ->  postgres -> table  ->  json
 ### input in postgresql:
         psql;
         CREATE USER vladlink WITH PASSWORD 'vladlink' CREATEDB;
-        CREATEDB menu;
+        CREATEDB vladlink;
 
 ### input in folder:
         python -m venv venv
