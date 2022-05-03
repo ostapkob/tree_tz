@@ -18,22 +18,6 @@ def waves(f):
     return wrap
 
 
-# def recursice_json(items, deep=100, level=0, url=''):
-#     level += 1
-#     if level > deep:
-#         return
-#     for item in items:
-#         url = '/' + item['alias']
-#         print('🔸  '*level, item['id'],
-#               ':', f"[cyan1] {item['name']} [/cyan1], {url}")
-
-#         childrens = item.get('childrens', None)
-#         if childrens is not None:
-#             recursice_json(childrens, deep, level, url)
-#         else:
-#             tmp = url.split('/')[:-1]
-#             url = '/'.join(tmp)
-
 def recursice_json(json_obj, child, deep=100, level=0, url=''):
     childrens = child.get('childrens', None)
     level += 1

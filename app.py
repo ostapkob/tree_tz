@@ -7,7 +7,9 @@ from write_to_file import *
 from postres import *
 
 '''
-json -> table -> postres -> table -> json -> levels -> file
+json  ->  table  ->  postgres -> table  ->  json 
+                                 ├─> level  ├─> level
+                                 └─> file   └─> file
 '''
 
 with open('categories_2.json', 'r') as f:
@@ -34,8 +36,8 @@ print_json_by_levels(json_obj)
 json_menu = table_to_json(db_menu, 4)
 print(json_menu)
 
-json_to_file(json_menu, 'new_file.txt')
-table_to_file(db_menu, 'new_file.txt')
+json_to_file(json_menu, 'new_file.txt', 4)
+table_to_file(db_menu, 'new_file.txt', 4)
 
 print_table_by_levels(db_menu, 4)
 print_json_by_levels(json_menu, 4)
