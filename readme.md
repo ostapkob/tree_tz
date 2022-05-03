@@ -1,9 +1,9 @@
 This project convert json to table and table to json
   
 ```
-json  ->  table  ->  postgres -> table  ->  json 
-                                ├─> level  ├─> level
-                                └─> file   └─> file
+json  ->  table  ->  postgres ->  table  ->  json 
+                                  ├─> level  ├─> level
+                                  └─> file   └─> file
 ```
 
 
